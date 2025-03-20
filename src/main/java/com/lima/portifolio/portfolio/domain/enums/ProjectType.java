@@ -1,9 +1,9 @@
 package com.lima.portifolio.portfolio.domain.enums;
 
 public enum ProjectType {
-    BACKEND("Backend"),
-    FRONTEND("Frontend"),
-    FULLSTACK("Fullstack");
+    Backend("Backend"),
+    Frontend("Frontend"),
+    Fullstack("Fullstack");
 
     private final String type;
 
