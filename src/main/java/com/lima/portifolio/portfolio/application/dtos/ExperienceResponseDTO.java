@@ -1,6 +1,8 @@
 package com.lima.portifolio.portfolio.application.dtos;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,4 +20,5 @@ public class ExperienceResponseDTO {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private LocalDateTime createdAt;
+    private Set<SkillResponseDTO> skills;
 }
