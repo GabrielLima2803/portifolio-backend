@@ -38,6 +38,7 @@ jobs:
         args: >
           -Dsonar.projectKey=GabrielLima2803_portifolio-backend
           -Dsonar.organization=gabriellima2803
+          -Dsonar.java.binaries=target/classes
 
 
   build-docker-image:
