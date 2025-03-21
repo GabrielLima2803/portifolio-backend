@@ -75,42 +75,88 @@ jobs:
           ${{ env.IMAGE_NAME }}:latest
           ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
 
-  deploy-staging:
-    needs: build-docker-image
+
+  test-deploy:
     runs-on: ubuntu-latest
-    environment: staging
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout do código
+        uses: actions/checkout@v4
 
-    - name: List repository files
-      run: ls -R
+      - name: Instalar kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
 
-    - name: Deploy to Kubernetes
-      uses: Azure/k8s-deploy@v4
-      with:
-        namespace: staging
-        manifests: ./k8s/staging-deployment.yaml
-        images: |
-          ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+      - name: Instalar Kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.17.0/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
 
-  deploy-production:
-    needs: deploy-staging
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-    - name: Approve Deployment
-      uses: trstringer/manual-approval@v1
-      with:
-        secret: ${{ secrets.PRODUCTION_APPROVAL_TOKEN }}
-        approvers: 'team-lead,devops'
+      - name: Criar cluster Kind
+        run: kind create cluster --name portifolio-cluster
 
-    - name: Blue-Green Deployment
-      uses: Azure/k8s-deploy@v4
-      with:
-        strategy: blue-green
-        namespace: production
-        manifests: k8s/production-deployment.yaml
-        images: |
-          ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+      - name: Aguardar Cluster estar pronto
+        run: sleep 10
+
+      - name: Verificar cluster
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+          kubectl get pods -A
+
+      - name: Criar Namespace e Aplicar Manifests
+        run: |
+          kubectl create namespace staging
+          kubectl apply -f k8s/configmap.yaml
+          kubectl apply -f k8s/staging-deployment.yaml -n staging
+          kubectl rollout status deployment/portifolio-backend -n staging
+
+      
+
+  # deploy-staging:
+  #   needs: build-docker-image
+  #   runs-on: ubuntu-latest
+  #   # environment: staging
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v4
+
+  #   - name: List repository files
+  #     run: ls -R
+
+  #   - name: Set Kubernetes Context'
+  #     uses: Azure/k8s-set-context@v4
+  #     with:
+  #      kubeconfig: ${{ secrets.KUBECONFIG }}
+
+
+  #   - name: Deploy to Kubernetes
+  #     uses: Azure/k8s-deploy@v4
+  #     with:
+  #       namespace: staging
+  #       manifests: ./k8s/staging-deployment.yaml
+  #       images: |
+  #         ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+
+  # deploy-production:
+  #   needs: deploy-staging
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   # environment: production
+  #   steps:
+  #   - name: Approve Deployment
+  #     uses: trstringer/manual-approval@v1
+  #     with:
+  #       secret: ${{ secrets.PRODUCTION_APPROVAL_TOKEN }}
+  #       approvers: 'team-lead,devops'
+
+  #   - name: Blue-Green Deployment
+  #     uses: Azure/k8s-deploy@v4
+  #     with:
+  #       strategy: blue-green
+  #       namespace: production
+  #       manifests: k8s/production-deployment.yaml
+  #       images: |
+  #         ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
