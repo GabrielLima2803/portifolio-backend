@@ -24,55 +24,76 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @WebMvcTest(ExperienceController.class)
 class ExperienceControllerTest {
+    private static final String COMPANY_NAME_TECH_CORP = "Tech Corp";
+    private static final String COMPANY_NAME_STARTUP_X = "Startup X";
+    private static final String ROLE_DEVELOPER = "Dev";
+    private static final String ROLE_ENGINEER = "Engenheiro";
+    private static final String DESCRIPTION_DEVELOPMENT = "Desenvolvimento";
+    private static final String DESCRIPTION_SYSTEMS = "Sistemas";
+    private static final String BASE_API_URL = "/api/experiences";
 
     @Autowired
     private MockMvc mockMvc;
-
+    
     @MockitoBean
     private ExperienceService experienceService;
-
+    
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
     void createExperience_ShouldReturnCreatedWithLocationHeader() throws Exception {
         ExperienceRequestDTO request = new ExperienceRequestDTO(
-            "Tech Corp", "Dev", "Desenvolvimento", 
-            LocalDateTime.now(), Set.of(1L), null
+            COMPANY_NAME_TECH_CORP,
+            ROLE_DEVELOPER,
+            DESCRIPTION_DEVELOPMENT,
+            LocalDateTime.now(),
+            Set.of(1L),
+            null
         );
         
         ExperienceResponseDTO response = new ExperienceResponseDTO(
-            1L, "Tech Corp", "Dev", "Desenvolvimento",
-            LocalDateTime.now(), null, LocalDateTime.now(),
+            1L,
+            COMPANY_NAME_TECH_CORP,
+            ROLE_DEVELOPER,
+            DESCRIPTION_DEVELOPMENT,
+            LocalDateTime.now(),
+            null,
+            LocalDateTime.now(),
             Set.of()
         );
-
+        
         when(experienceService.createExperience(any())).thenReturn(response);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/experiences")
+        
+        mockMvc.perform(MockMvcRequestBuilders.post(BASE_API_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"))
-                .andExpect(header().string("Location", "http://localhost/api/experiences/1"))
+                .andExpect(header().string("Location", "http://localhost" + BASE_API_URL + "/1"))
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.company").value("Tech Corp"));
+                .andExpect(jsonPath("$.company").value(COMPANY_NAME_TECH_CORP));
     }
 
     @Test
     void findAllExperiences_ShouldReturn200WithExperiences() throws Exception {
         ExperienceResponseDTO experience = new ExperienceResponseDTO(
-            1L, "Startup X", "Engenheiro", "Sistemas",
-            LocalDateTime.now(), null, LocalDateTime.now(),
+            1L,
+            COMPANY_NAME_STARTUP_X,
+            ROLE_ENGINEER,
+            DESCRIPTION_SYSTEMS,
+            LocalDateTime.now(),
+            null,
+            LocalDateTime.now(),
             Set.of()
         );
         
         when(experienceService.findAllExperience()).thenReturn(List.of(experience));
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/experiences"))
+        
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_API_URL))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].role").value("Engenheiro"));
+                .andExpect(jsonPath("$[0].role").value(ROLE_ENGINEER));
     }
 
     @Test

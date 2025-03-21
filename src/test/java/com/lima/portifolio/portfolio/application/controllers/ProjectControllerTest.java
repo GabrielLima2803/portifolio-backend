@@ -46,7 +46,7 @@ class ProjectControllerTest {
                 "https://ecommerce.com",
                 "https://image.url",
                 ProjectStatus.FINISHED,
-                ProjectType.Backend,
+                ProjectType.BACKEND,
                 LocalDateTime.parse("2023-12-31T23:59:59"),
                 Set.of(1L, 2L)
         );
@@ -61,7 +61,7 @@ class ProjectControllerTest {
                 "https://ecommerce.com",
                 "https://image.url",
                 ProjectStatus.FINISHED,
-                ProjectType.Backend,
+                ProjectType.BACKEND,
                 LocalDateTime.parse("2023-12-31T23:59:59"),
                 LocalDateTime.now(),
                 Set.of(new SkillResponseDTO(1L, "Java"), new SkillResponseDTO(2L, "Spring"))
@@ -83,7 +83,7 @@ class ProjectControllerTest {
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("E-commerce Project")))
                 .andExpect(jsonPath("$.status", is("Finalizado")))
-                .andExpect(jsonPath("$.type", is("Backend")))
+                .andExpect(jsonPath("$.type", is("BACKEND")))
                 .andExpect(jsonPath("$.skills[*].name", containsInAnyOrder("Java", "Spring")));
 
         verify(projectService, times(1)).createProject(any(ProjectRequestDTO.class));
