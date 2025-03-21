@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  IMAGE_NAME: lima2803/portifolio-app
+  IMAGE_NAME: lima2803/portifolio-backend
   VERSION: 1.0.0
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Build with Maven
-      run: mvn -B clean package -DskipTests
+      run: mvn clean package -DskipTests
 
     - name: Run Tests
       run: mvn test

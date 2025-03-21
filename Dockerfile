@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-jammy
+FROM openjdk:21-jdk-slim
 
 WORKDIR /app
 
