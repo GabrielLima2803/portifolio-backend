@@ -112,7 +112,7 @@ class ProjectServiceTest {
                 "http://myproject.com",
                 "image.jpg",
                 ProjectStatus.IN_PROGRESS,
-                ProjectType.Backend,
+                ProjectType.BACKEND,
                 testDate.plusMonths(1),
                 Set.of(1L, 2L)
         );
@@ -127,7 +127,7 @@ class ProjectServiceTest {
                 "http://myproject.com",
                 "image.jpg",
                 ProjectStatus.IN_PROGRESS,
-                ProjectType.Backend,
+                ProjectType.BACKEND,
                 testDate.plusMonths(1),
                 testDate,
                 Set.of(new Skill(), new Skill())
@@ -143,7 +143,7 @@ class ProjectServiceTest {
                 "http://myproject.com",
                 "image.jpg",
                 ProjectStatus.IN_PROGRESS,
-                ProjectType.Backend,
+                ProjectType.BACKEND,
                 testDate.plusMonths(1),
                 testDate,
                 Set.of(
