@@ -34,6 +34,11 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        extraProperties: |
+          sonar.projectKey=GabrielLima2803_portifolio-backend
+          sonar.organization=gabriellima2803
+
 
   build-docker-image:
     needs: build-test-sonar
