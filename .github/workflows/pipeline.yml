@@ -77,6 +77,7 @@ jobs:
 
 
   test-deploy:
+    needs: build-docker-image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
@@ -113,50 +114,4 @@ jobs:
           kubectl apply -f k8s/staging-deployment.yaml -n staging
           kubectl rollout status deployment/portifolio-backend -n staging
 
-      
-
-  # deploy-staging:
-  #   needs: build-docker-image
-  #   runs-on: ubuntu-latest
-  #   # environment: staging
-  #   steps:
-  #   - name: Checkout code
-  #     uses: actions/checkout@v4
-
-  #   - name: List repository files
-  #     run: ls -R
-
-  #   - name: Set Kubernetes Context'
-  #     uses: Azure/k8s-set-context@v4
-  #     with:
-  #      kubeconfig: ${{ secrets.KUBECONFIG }}
-
-
-  #   - name: Deploy to Kubernetes
-  #     uses: Azure/k8s-deploy@v4
-  #     with:
-  #       namespace: staging
-  #       manifests: ./k8s/staging-deployment.yaml
-  #       images: |
-  #         ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
-
-  # deploy-production:
-  #   needs: deploy-staging
-  #   if: github.ref == 'refs/heads/main'
-  #   runs-on: ubuntu-latest
-  #   # environment: production
-  #   steps:
-  #   - name: Approve Deployment
-  #     uses: trstringer/manual-approval@v1
-  #     with:
-  #       secret: ${{ secrets.PRODUCTION_APPROVAL_TOKEN }}
-  #       approvers: 'team-lead,devops'
-
-  #   - name: Blue-Green Deployment
-  #     uses: Azure/k8s-deploy@v4
-  #     with:
-  #       strategy: blue-green
-  #       namespace: production
-  #       manifests: k8s/production-deployment.yaml
-  #       images: |
-  #         ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+  
