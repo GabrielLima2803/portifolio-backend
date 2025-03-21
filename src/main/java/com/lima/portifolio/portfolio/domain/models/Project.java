@@ -8,13 +8,15 @@ import com.lima.portifolio.portfolio.domain.enums.ProjectType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Project {
-    private final Long id;
+    private Long id;
     private String name;
     private String description;
     private String urlGithub;

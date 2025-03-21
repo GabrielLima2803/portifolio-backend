@@ -20,7 +20,11 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Autowired
     private ProjectPersistenceMapper mapper;
-
+      @Override
+    public Optional<Project> findByName(String name) {
+        return jpaRepository.findByName(name)
+                .map(mapper::toDomain);
+    }
     @Override
     public Project save(Project project) {
         ProjectJpaEntity entity = mapper.toEntity(project);

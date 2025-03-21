@@ -28,6 +28,12 @@ public class SkillRepositoryImpl implements SkillRepository {
     }
 
     @Override
+    public Optional<Skill> findByName(String name) {
+        return jpaRepository.findByName(name)
+                .map(mapper::toDomain);
+    }
+
+    @Override
     public Optional<Skill> findById(Long id) {
         return jpaRepository.findById(id)
                 .map(mapper::toDomain);

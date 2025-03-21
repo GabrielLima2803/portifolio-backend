@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.lima.portifolio.portfolio.application.dtos.ExperienceRequestDTO;
 import com.lima.portifolio.portfolio.application.dtos.ExperienceResponseDTO;
 import com.lima.portifolio.portfolio.application.mappers.ExperienceAppMapper;
+import com.lima.portifolio.portfolio.domain.exceptions.ExperienceValidationException;
 import com.lima.portifolio.portfolio.domain.models.Experience;
 import com.lima.portifolio.portfolio.domain.repositories.ExperienceRepository;
 
@@ -31,5 +32,13 @@ public class ExperienceService {
                 .stream()
                 .map(experienceAppMapper::toResponseDTO)
                 .toList();
+    }
+
+    public void deleteExperience(Long id) {
+
+        if (experienceRepository.findById(id).isEmpty()) {
+            throw new ExperienceValidationException("Experience not found", 404);
+        }
+        experienceRepository.delete(id);
     }
 }
