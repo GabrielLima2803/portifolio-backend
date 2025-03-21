@@ -12,7 +12,6 @@ import com.lima.portifolio.portfolio.application.dtos.ExperienceRequestDTO;
 import com.lima.portifolio.portfolio.application.dtos.ExperienceResponseDTO;
 import com.lima.portifolio.portfolio.application.dtos.SkillResponseDTO;
 import com.lima.portifolio.portfolio.application.mappers.ExperienceAppMapper;
-import com.lima.portifolio.portfolio.domain.exceptions.SkillValidationException;
 import com.lima.portifolio.portfolio.domain.models.Experience;
 import com.lima.portifolio.portfolio.domain.repositories.ExperienceRepository;
 
