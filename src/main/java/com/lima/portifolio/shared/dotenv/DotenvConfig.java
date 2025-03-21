@@ -8,6 +8,9 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 @Configuration
 public class DotenvConfig {
+    private static final String MAIL_USERNAME_KEY = "MAIL_USERNAME";
+    private static final String MAIL_SENDER_KEY = "MAIL_SENDER";
+    private static final String MAIL_PASSWORD_KEY = "MAIL_PASSWORD";
 
     @Bean
     public ServletContextInitializer servletContextInitializer() {
@@ -16,14 +19,11 @@ public class DotenvConfig {
             
             if (!"test".equalsIgnoreCase(activeProfile)) {
                 Dotenv dotenv = Dotenv.configure().load();
-                System.setProperty("DB_URL", dotenv.get("DB_URL"));
-                System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
-                System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
-                System.setProperty("MAIL_USERNAME", dotenv.get("MAIL_USERNAME"));
-                System.setProperty("MAIL_SENDER", dotenv.get("MAIL_SENDER"));
-                System.setProperty("MAIL_PASSWORD", dotenv.get("MAIL_PASSWORD"));
+                System.setProperty(MAIL_USERNAME_KEY, dotenv.get(MAIL_USERNAME_KEY));
+                System.setProperty(MAIL_SENDER_KEY, dotenv.get(MAIL_SENDER_KEY));
+                System.setProperty(MAIL_PASSWORD_KEY, dotenv.get(MAIL_PASSWORD_KEY));
             } else {
-                System.setProperty("MAIL_SENDER", "test@example.com");
+                System.setProperty(MAIL_SENDER_KEY, "test@example.com");
             }
         };
     }

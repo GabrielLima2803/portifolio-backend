@@ -3,6 +3,7 @@ package com.lima.portifolio.portfolio.infra.entities;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,9 +27,9 @@ public class SkillJpaEntity {
 
     private String name;
 
-    @ManyToMany(mappedBy = "skills")
+    @ManyToMany(mappedBy = "skills", fetch = FetchType.LAZY)
     private Set<ProjectJpaEntity> projects;
 
-    @ManyToMany(mappedBy = "skills")
+    @ManyToMany(mappedBy = "skills", fetch = FetchType.LAZY)
     private Set<ExperienceJpaEntity> experiences;
 }

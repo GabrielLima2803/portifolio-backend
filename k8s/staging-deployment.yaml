@@ -13,6 +13,7 @@ spec:
       labels:
         app: portifolio-backend
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: portifolio-backend
         image: lima2803/portifolio-backend:latest
