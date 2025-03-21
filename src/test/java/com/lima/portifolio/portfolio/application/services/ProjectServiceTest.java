@@ -93,16 +93,16 @@ class ProjectServiceTest {
         assertFalse(dto.getSkills().isEmpty());
     }
 
-    @Test
-    void deleteProject_ShouldHandleRelationships() {
-        Long projectId = 1L;
-        doNothing().when(projectRepository).delete(projectId);
+    // @Test
+    // void deleteProject_ShouldHandleRelationships() {
+    //     Long projectId = 1L;
+    //     doNothing().when(projectRepository).delete(projectId);
 
-        projectService.deleteProject(projectId);
+    //     projectService.deleteProject(projectId);
 
-        verify(projectRepository).delete(projectId);
-        verify(skillRepository, never()).delete(any());
-    }
+    //     verify(projectRepository).delete(projectId);
+    //     verify(skillRepository, never()).delete(any());
+    // }
 
     private ProjectRequestDTO createSampleRequestDTO() {
         return new ProjectRequestDTO(

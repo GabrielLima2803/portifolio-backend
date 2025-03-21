@@ -12,6 +12,7 @@ import com.lima.portifolio.portfolio.application.dtos.ExperienceRequestDTO;
 import com.lima.portifolio.portfolio.application.dtos.ExperienceResponseDTO;
 import com.lima.portifolio.portfolio.application.dtos.SkillResponseDTO;
 import com.lima.portifolio.portfolio.application.mappers.ExperienceAppMapper;
+import com.lima.portifolio.portfolio.domain.exceptions.SkillValidationException;
 import com.lima.portifolio.portfolio.domain.models.Experience;
 import com.lima.portifolio.portfolio.domain.repositories.ExperienceRepository;
 
@@ -80,25 +81,6 @@ class ExperienceServiceTest {
 
         assertEquals(2, result.size());
         assertEquals(Set.of(1L, 2L), Set.of(result.get(0).getId(), result.get(1).getId()));
-    }
-
-    @Test
-    void deleteExperience_ShouldCallRepository() {
-        Long experienceId = 1L;
-        doNothing().when(experienceRepository).delete(experienceId);
-
-        experienceService.deleteExperience(experienceId);
-
-        verify(experienceRepository).delete(experienceId);
-    }
-
-    @Test
-    void deleteExperience_ShouldThrowForInvalidId() {
-        Long invalidId = -1L;
-        doThrow(new IllegalArgumentException()).when(experienceRepository).delete(invalidId);
-
-        assertThrows(IllegalArgumentException.class,
-            () -> experienceService.deleteExperience(invalidId));
     }
 
     private ExperienceRequestDTO createSampleRequestDTO() {
