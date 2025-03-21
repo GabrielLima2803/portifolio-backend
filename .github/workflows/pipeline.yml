@@ -36,8 +36,8 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
         args: >
-          sonar.projectKey=GabrielLima2803_portifolio-backend
-          sonar.organization=gabriellima2803
+          -Dsonar.projectKey=GabrielLima2803_portifolio-backend
+          -Dsonar.organization=gabriellima2803
 
 
   build-docker-image:
