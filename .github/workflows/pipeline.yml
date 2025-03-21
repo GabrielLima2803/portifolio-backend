@@ -24,7 +24,11 @@ jobs:
         distribution: 'temurin'
 
     - name: Build with Maven
-      run: mvn clean package -DskipTests
+      run: mvn -B clean package -DskipTests
+
+    - name: List target directory
+      run: ls -l target
+
 
     - name: Run Tests
       run: mvn test
