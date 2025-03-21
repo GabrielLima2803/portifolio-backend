@@ -22,6 +22,8 @@ public class DotenvConfig {
                 System.setProperty("MAIL_USERNAME", dotenv.get("MAIL_USERNAME"));
                 System.setProperty("MAIL_SENDER", dotenv.get("MAIL_SENDER"));
                 System.setProperty("MAIL_PASSWORD", dotenv.get("MAIL_PASSWORD"));
+            } else {
+                System.setProperty("MAIL_SENDER", "test@example.com");
             }
         };
     }
