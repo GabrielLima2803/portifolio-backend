@@ -1,10 +1,9 @@
-version: '3.8' 
+version: "3.8"
 
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:17
     container_name: postgres_container
-    restart: always
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
@@ -13,6 +12,27 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d mydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: app_container
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_PASSWORD: root
+      DB_USERNAME: root
+      DB_URL: jdbc:postgresql://postgres:5432/mydb
+      MAIL_USERNAME: gabriellima2803@gmail.com
+      MAIL_PASSWORD: uuub gsir imyf yeox
+      MAIL_SENDER: gabriellima2803@gmail.com
+    ports:
+      - "8080:8080"
 
 volumes:
-  postgres_data:  
+  postgres_data:
