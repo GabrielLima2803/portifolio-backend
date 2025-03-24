@@ -2,6 +2,8 @@ package com.lima.portifolio.portfolio.infra.entities;
 
 import java.util.Set;
 
+import com.lima.portifolio.portfolio.domain.enums.SkillType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +28,8 @@ public class SkillJpaEntity {
     private Long id;
 
     private String name;
+
+    private SkillType type;
 
     @ManyToMany(mappedBy = "skills", fetch = FetchType.LAZY)
     private Set<ProjectJpaEntity> projects;

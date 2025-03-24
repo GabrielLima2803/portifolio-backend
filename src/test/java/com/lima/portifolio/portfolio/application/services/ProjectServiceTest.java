@@ -15,6 +15,7 @@ import com.lima.portifolio.portfolio.application.dtos.SkillResponseDTO;
 import com.lima.portifolio.portfolio.application.mappers.ProjectAppMapper;
 import com.lima.portifolio.portfolio.domain.enums.ProjectStatus;
 import com.lima.portifolio.portfolio.domain.enums.ProjectType;
+import com.lima.portifolio.portfolio.domain.enums.SkillType;
 import com.lima.portifolio.portfolio.domain.exceptions.ProjectValidationException;
 import com.lima.portifolio.portfolio.domain.models.Project;
 import com.lima.portifolio.portfolio.domain.models.Skill;
@@ -147,8 +148,8 @@ class ProjectServiceTest {
                 testDate.plusMonths(1),
                 testDate,
                 Set.of(
-                        new SkillResponseDTO(1L, "Java"),
-                        new SkillResponseDTO(2L, "Spring")
+                        new SkillResponseDTO(1L, "Java", SkillType.FRAMEWORK),
+                        new SkillResponseDTO(2L, "Spring", SkillType.FRAMEWORK)
                 )
         );
     }

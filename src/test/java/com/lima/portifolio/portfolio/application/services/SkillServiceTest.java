@@ -11,6 +11,7 @@ import java.util.Optional;
 import com.lima.portifolio.portfolio.application.dtos.SkillRequestDTO;
 import com.lima.portifolio.portfolio.application.dtos.SkillResponseDTO;
 import com.lima.portifolio.portfolio.application.mappers.SkillAppMapper;
+import com.lima.portifolio.portfolio.domain.enums.SkillType;
 import com.lima.portifolio.portfolio.domain.exceptions.SkillValidationException;
 import com.lima.portifolio.portfolio.domain.models.Skill;
 import com.lima.portifolio.portfolio.domain.repositories.SkillRepository;
@@ -34,7 +35,7 @@ public class SkillServiceTest {
 
     @Test
     void createSkill_ShouldThrowException_WhenSkillExists() {
-        SkillRequestDTO request = new SkillRequestDTO("Java");
+        SkillRequestDTO request = new SkillRequestDTO("Java", SkillType.FRAMEWORK);
         when(skillRepository.findByName("Java")).thenReturn(Optional.of(new Skill()));
 
         SkillValidationException exception = assertThrows(SkillValidationException.class,
@@ -47,9 +48,9 @@ public class SkillServiceTest {
 
     @Test
     void createSkill_ShouldSaveSkill_WhenValidRequest() {
-        SkillRequestDTO request = new SkillRequestDTO("Java");
-        Skill domain = new Skill(1L, "Java", null, null);
-        SkillResponseDTO responseDTO = new SkillResponseDTO(1L, "Java");
+        SkillRequestDTO request = new SkillRequestDTO("Java", SkillType.FRAMEWORK);
+        Skill domain = new Skill(1L, "Java", SkillType.FRAMEWORK, null, null);
+        SkillResponseDTO responseDTO = new SkillResponseDTO(1L, "Java", SkillType.FRAMEWORK);
 
         when(skillRepository.findByName("Java")).thenReturn(Optional.empty());
         when(mapper.toDomain(request)).thenReturn(domain);
@@ -77,10 +78,10 @@ public class SkillServiceTest {
 
     @Test
     void findAllSkills_ShouldReturnMappedDTOs_WhenSkillsExist() {
-        Skill skill1 = new Skill(1L, "Java", null, null);
-        Skill skill2 = new Skill(2L, "Spring", null, null);
-        SkillResponseDTO dto1 = new SkillResponseDTO(1L, "Java");
-        SkillResponseDTO dto2 = new SkillResponseDTO(2L, "Spring");
+        Skill skill1 = new Skill(1L, "Java", SkillType.FRAMEWORK, null, null);
+        Skill skill2 = new Skill(2L, "Spring", SkillType.FRAMEWORK, null, null);
+        SkillResponseDTO dto1 = new SkillResponseDTO(1L, "Java", SkillType.FRAMEWORK);
+        SkillResponseDTO dto2 = new SkillResponseDTO(2L, "Spring", SkillType.FRAMEWORK);
 
         when(skillRepository.findAll()).thenReturn(List.of(skill1, skill2));
         when(mapper.toResponseDTO(skill1)).thenReturn(dto1);

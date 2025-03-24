@@ -12,6 +12,7 @@ import com.lima.portifolio.portfolio.application.dtos.ExperienceRequestDTO;
 import com.lima.portifolio.portfolio.application.dtos.ExperienceResponseDTO;
 import com.lima.portifolio.portfolio.application.dtos.SkillResponseDTO;
 import com.lima.portifolio.portfolio.application.mappers.ExperienceAppMapper;
+import com.lima.portifolio.portfolio.domain.enums.SkillType;
 import com.lima.portifolio.portfolio.domain.models.Experience;
 import com.lima.portifolio.portfolio.domain.repositories.ExperienceRepository;
 
@@ -119,8 +120,8 @@ class ExperienceServiceTest {
             endDate,
             now,
             Set.of(
-                new SkillResponseDTO(1L, "Java"),
-                new SkillResponseDTO(2L, "Spring")
+                new SkillResponseDTO(1L, "Java", SkillType.FRAMEWORK),
+                new SkillResponseDTO(2L, "Spring", SkillType.FRAMEWORK)
             )
         );
     }

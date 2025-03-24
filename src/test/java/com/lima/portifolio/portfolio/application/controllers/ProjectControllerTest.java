@@ -7,6 +7,7 @@ import com.lima.portifolio.portfolio.application.dtos.ProjectResponseDTO;
 import com.lima.portifolio.portfolio.application.dtos.SkillResponseDTO;
 import com.lima.portifolio.portfolio.domain.enums.ProjectStatus;
 import com.lima.portifolio.portfolio.domain.enums.ProjectType;
+import com.lima.portifolio.portfolio.domain.enums.SkillType;
 import com.lima.portifolio.portfolio.application.services.ProjectService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ class ProjectControllerTest {
                 ProjectType.BACKEND,
                 LocalDateTime.parse("2023-12-31T23:59:59"),
                 LocalDateTime.now(),
-                Set.of(new SkillResponseDTO(1L, "Java"), new SkillResponseDTO(2L, "Spring"))
+                Set.of(new SkillResponseDTO(1L, "Java", SkillType.FRAMEWORK), new SkillResponseDTO(2L, "Spring", SkillType.FRAMEWORK))
         );
     }
 

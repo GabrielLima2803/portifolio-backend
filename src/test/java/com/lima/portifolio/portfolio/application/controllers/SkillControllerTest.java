@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lima.portifolio.portfolio.application.dtos.SkillRequestDTO;
 import com.lima.portifolio.portfolio.application.dtos.SkillResponseDTO;
 import com.lima.portifolio.portfolio.application.services.SkillService;
+import com.lima.portifolio.portfolio.domain.enums.SkillType;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -33,8 +35,8 @@ class SkillControllerTest {
 
     @Test
     void createSkill_ShouldReturnCreatedWithLocationHeader() throws Exception {
-        SkillRequestDTO request = new SkillRequestDTO("Java");
-        SkillResponseDTO response = new SkillResponseDTO(1L, "Java");
+        SkillRequestDTO request = new SkillRequestDTO("Java", SkillType.FRAMEWORK);
+        SkillResponseDTO response = new SkillResponseDTO(1L, "Java", SkillType.FRAMEWORK);
         
         when(skillService.createSkill(any())).thenReturn(response);
 
@@ -50,14 +52,16 @@ class SkillControllerTest {
 
     @Test
     void findAllSkills_ShouldReturn200WithSkills() throws Exception {
-        SkillResponseDTO skill = new SkillResponseDTO(1L, "Spring");
-        when(skillService.findAllSkill()).thenReturn(List.of(skill));
-
+        SkillResponseDTO skill = new SkillResponseDTO(1L, "Spring", SkillType.FRAMEWORK);
+        when(skillService.findSkillsByType(any())).thenReturn(List.of(skill));
+    
         mockMvc.perform(MockMvcRequestBuilders.get("/api/skills"))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").exists())
                 .andExpect(jsonPath("$[0].id").value(1L))
                 .andExpect(jsonPath("$[0].name").value("Spring"));
     }
+    
 
     @Test
     void findAllSkills_ShouldReturn204WhenEmpty() throws Exception {
